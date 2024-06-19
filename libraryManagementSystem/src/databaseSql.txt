@@ -1,0 +1,46 @@
+CREATE DATABASE libraryManagementSystem;
+USE libraryManagementSystem;
+
+CREATE TABLE users(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(50) UNIQUE NOT NULL,
+    fullname VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE students (
+	id INT PRIMARY KEY auto_increment,
+	firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    program VARCHAR(50) NOT NULL,
+    section VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE books (
+	id INT PRIMARY KEY auto_increment,
+	authorName VARCHAR(100) NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    publicationName VARCHAR(100) NOT NULL,
+    subject VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE issueBook (
+	studentId INT NOT NULL,
+    bookId INT NOT NULL,
+    issueId INT PRIMARY KEY AUTO_INCREMENT,
+    issueDate VARCHAR(50) NOT NULL,
+    dueDate VARCHAR(50) NOT NULL,
+    FOREIGN KEY (studentId) REFERENCES students (id),
+    FOREIGN KEY (bookId) REFERENCES books (id)
+);
+
+SELECT * from users;
+SELECT * from students;
+SELECT * from books;
+SELECT * from issueBook;
+
+SELECT s.firstName, s.lastName, s.gender, s.program, s.section, b.title
+FROM issueBook i
+JOIN students s ON i.studentId = s.id
+JOIN books b ON i.bookId = b.id;
